@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>User Profile</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- extra CSS Files -->
+  <link href="../assets/extra/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/extra/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/extra/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/extra/quill/quill.snow.css" rel="stylesheet">
+  <link href="../assets/extra/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../assets/extra/remixicon/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <!-- <link href="../assets/extra/simple-datatables/style.css" rel="stylesheet"> -->
+
+  <!-- Template Main CSS File -->
+  <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/coloris.min.css" rel="stylesheet" type="text/css">
+
+
+  <!-- stripe -->
+  <!-- <script src="https://js.stripe.com/v3/pricing-table.js" async></script> -->
+
+
+  <style>
+    .colortext {
+      height: 30px;
+    }
+
+    .square .clr-field button,
+    .circle .clr-field button {
+      width: 22px;
+      height: 22px;
+      left: 5px;
+      right: auto;
+      border-radius: 5px;
+    }
+
+    .square .clr-field input,
+    .circle .clr-field input {
+      padding-left: 36px;
+    }
+
+    .clr-field {
+      width: 100%;
+    }
+
+    .square {
+      margin-top: 5px;
+    }
+
+
+    .circle .clr-field button {
+      border-radius: 50%;
+    }
+
+    .full .clr-field button {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- header -->
+  <header id="header" class="kkls header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+      <a href="" class="ml_25 d-flex align-items-center">
+        <img src="../assets/images/samples/logo_horizontal.png" alt="Stageplan Logo" class="img_size_40">
+      </a>
+
+      <div class="option-bar d-none" id="options_">
+        <i id="btnSaveBoard" class="bi bi-save option-bar-icons" title="Save Stage"></i>
+        <i id="btndownload" class="bi bi-cloud-download option-bar-icons" title="Download PNG"></i>
+        <i id="btnfullscreen" class="bi bi-arrows-fullscreen" title="FullScreen"></i>
+      </div>
+    </div>
+    <!-- End Logo -->
+
+    <div id="search_bar_" class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" id="query" name="query" placeholder="Search your projects..." title="Enter search keyword" />
+        <button type="submit" title="Search">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- <div class="option-bar d-none" id="options_">
+    <i id="btnSaveBoard" class="bi bi-save"></i>
+    <i id="btndownload" class="bi bi-cloud-download"></i>
+    </div> -->
+
+
+
+    <!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="" class="rounded-circle avatar imagePreviewUpdate" />
+            <span class="d-none d-md-block dropdown-toggle ps-2 user_name name_update"></span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6 class="user_name name_update"></h6>
+              <span class="job job_update"></span>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="user_profile.html">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+          </ul>
+          <!-- End Profile Dropdown Items -->
+        </li>
+        <!-- End Profile Nav -->
+      </ul>
+    </nav>
+    <!-- End Icons Navigation -->
+  </header>
+
+  <!-- bottom sheet -->
+  <nav id="bottom_navbar" style="display: none;" class="navbar navbar-expand fixed-bottom navbar-dark bg-dark">
+    <div class="container">
+      <ul class="navbar-nav w-100 justify-content-between align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" href="../dashboard.html">
+            <!-- Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house-door"
+              viewBox="0 0 16 16">
+              <path
+                d="M8.354 1.146a.5.5 0 0 0-.708 0l-6.5 6.5a.5.5 0 1 0 .708.708l.646-.646V15.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-8.293l.646.646a.5.5 0 1 0 .708-.708l-6.5-6.5z" />
+              <path fill-rule="evenodd" d="M13.5 2.5v2.646l-4-4-4 4V2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5z" />
+            </svg>
+            <!-- Text -->
+            <span>Home</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="user_profile.html">
+            <!-- Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person"
+              viewBox="0 0 16 16">
+              <path
+                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8 9a5.978 5.978 0 0 0-4.217 1.784C3.389 12.213 4.844 14 7 14s3.611-1.787 3.217-3.216A5.978 5.978 0 0 0 8 9z" />
+            </svg>
+            <!-- Text -->
+            <span>Profile</span>
+          </a>
+        </li>
+        <li class="nav-item center-button">
+          <a class="nav-link" href="create_project.html">
+            <!-- Plus Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus"
+              viewBox="0 0 16 16">
+              <path d="M8 7.5V1.5a.5.5 0 0 1 1 0v6h6a.5.5 0 0 1 0 1h-6v6a.5.5 0 0 1-1 0v-6h-6a.5.5 0 0 1 0-1h6z" />
+            </svg>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://createastage.com/faq/" target="_blank">
+            <!-- Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+              class="bi bi-question-circle" viewBox="0 0 16 16">
+              <path d="M8 16a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-1a7 7 0 1 0 0-14 7 7 0 0 0 0 14z" />
+              <path
+                d="M5.255 5.786a1.042 1.042 0 1 1 1.49-1.45c.298.33.401.604.41.935.016.606-.265 1.053-.808 1.477-.42.318-.625.63-.625 1.095a.5.5 0 1 1-1 0c0-1.209.937-1.763 1.49-2.057zm1.38 5.18a.5.5 0 1 1-.995 0 .5.5 0 0 1 .995 0z" />
+            </svg>
+            <!-- Text -->
+            <span>FAQ</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">
+            <!-- Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-envelope"
+              viewBox="0 0 16 16">
+              <path
+                d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1h12a1 1 0 0 1 1 1v.2L8 8.69 1 4.2V4a1 1 0 0 1 1-1zm-.982 2.58L5.423 8.67l-4.403-3.09A.5.5 0 0 0 1 5h-.983z" />
+              <path d="M1 11h14a1 1 0 0 0 1-1v-.6l-7.573 5.282a1 1 0 0 1-1.117 0L1 9.4V10a1 1 0 0 0 1 1z" />
+            </svg>
+            <!-- Text -->
+            <span>Contact</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="../dashboard.html">
+          <i class="bi bi-grid"></i>
+          <span>Projects</span>
+        </a>
+      </li>
+      <!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" href="user_profile.html">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      <!-- End Profile Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="https://createastage.com/terms/" target="_blank">
+          <i class="bi bi-file-earmark-text"></i>
+          <span>Terms and Conditions</span>
+        </a>
+      </li>
+      <!-- End Terms and Conditions Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="https://createastage.com/privacy-policy/" target="_blank">
+          <i class="bi bi-file-earmark-text"></i>
+          <span>Privacy Policy</span>
+        </a>
+      </li>
+      <!-- End Privacy Policy Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="https://createastage.com/faq/" target="_blank">
+          <i class="bi bi-question-circle"></i>
+          <span>F.A.Q</span>
+        </a>
+      </li>
+      <!-- End F.A.Q Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="contact.html">
+          <i class="bi bi-envelope"></i>
+          <span>Contact</span>
+        </a>
+      </li>
+      <!-- End Contact Page Nav -->
+    </ul>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="pagetitle _4vh">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              <img src="" alt="Profile" class="rounded-circle avatar imagePreviewUpdate" />
+              <h2 class="user_name name_update"></h2>
+              <h3 class="job job_update">Web Designer</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-8">
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+                <li class="nav-item">
+                  <button class="nav-link active" id="profile-overview-button" data-bs-toggle="tab"
+                    data-bs-target="#profile-overview">
+                    Overview
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">
+                    Edit Profile
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">
+                    Change Password
+                  </button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" id="subscription_button" data-bs-toggle="tab" data-bs-target="#subscription">
+                    Subscription
+                  </button>
+                </li>
+                
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-delete">
+                    Delete Profile
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2">
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  <h5 class="card-title">About</h5>
+                  <p class="small fst-italic bio">
+                  </p>
+
+                  <h5 class="card-title">Profile Details</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Full Name</div>
+                    <div class="col-lg-9 col-md-8 user_name name_update"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Company</div>
+                    <div class="col-lg-9 col-md-8 company">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Job</div>
+                    <div class="col-lg-9 col-md-8 job job_update"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Country</div>
+                    <div class="col-lg-9 col-md-8 country"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Address</div>
+                    <div class="col-lg-9 col-md-8 address">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Phone</div>
+                    <div class="col-lg-9 col-md-8 contact"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8 email">
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                  <!-- Profile Edit Form -->
+                  <form id="updateForm">
+                    <!-- success message -->
+                    <div class="alert alert-success d-none message_timeout" id="update_success_msg" role="alert">
+                    </div>
+                    <!-- success message -->
+                    <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                      <div class="col-md-8 col-lg-9">
+                        <img src="" class="avatar imagePreview" alt="Profile" />
+                        <div class="pt-2">
+                          <!-- <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a> -->
+                          <label for="profile-image-upload" class="btn btn-primary btn-sm"
+                            title="Upload new profile image">
+                            <i class="bi bi-upload text-light"></i>
+                          </label>
+                          <input type="file" id="profile-image-upload" style="display: none;" accept="image/*">
+                          <input type="hidden" class="profile_image" name="profile_image" id="profile_image">
+                          <!-- <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a> -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="fullName" type="text" class="form-control user_name " id="name" value="" />
+                        <div class="invalid-feedback" id="nameError">The name field is required</div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                      <div class="col-md-8 col-lg-9">
+                        <textarea name="about" class="form-control bio" id="about" style="height: 100px"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="company" type="text" class="form-control company" id="company" value="" />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="job" type="text" class="form-control job" id="job" value="" />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="country" type="text" class="form-control country" id="country" value="" />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="address" type="text" class="form-control address" id="address" value="" />
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="phone" type="text" class="form-control contact" id="phone" value="" />
+                        <div class="invalid-feedback" id="phoneError"></div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="email" type="email" class="form-control email" id="email" value="" readonly/>
+                        <div class="invalid-feedback" id="emailError"></div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button id="updateButton" type="button" onclick="updateProfile()" class="btn btn-primary">
+                        <span id="loaderSpinnerUpdate" class="spinner-border spinner-border-sm d-none" role="status"
+                          aria-hidden="true"></span>
+                        Save Changes
+                      </button>
+                    </div>
+                  </form>
+                  <!-- End Profile Edit Form -->
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Change Password Form -->
+                  <form id="changePassword">
+                    <!-- success message -->
+                    <div class="alert alert-success d-none message_timeout" id="changePassword_success_msg"
+                      role="alert">
+                    </div>
+                    <!-- success message -->
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="password" type="password" class="form-control" id="currentPassword" />
+                        <div class="invalid-feedback" id="currentPasswordError">
+                          <!-- Please enter a valid Email adddress! -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword" />
+                        <div class="invalid-feedback" id="passwordError">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="renewpassword" type="password" class="form-control" id="renewPassword" />
+                        <div class="invalid-feedback" id="confirm_passwordError">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button id="changePasswordButton" type="button" class="btn btn-primary"
+                        onclick="changePassword()">
+                        Change Password
+                        <span id="loaderSpinnerChangePassword" class="spinner-border spinner-border-sm d-none"
+                          role="status" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </form>
+                  <!-- End Change Password Form -->
+                </div>
+                
+                 <!-- Profile Delete -->
+
+                <div class="tab-pane fade pt-3" id="profile-delete">
+                  <!-- Change Password Form -->
+                  <form id="deleteProfile">
+                    <!-- success message -->
+                    <div class="alert alert-success d-none message_timeout" id="deleteProfile_success_msg"
+                      role="alert">
+                    </div>
+                    <!-- success message -->
+                  
+
+                    <div class="text-center">
+                      <button id="deleteProfileButton" type="button" class="btn btn-primary"
+                        onclick="deleteProfile()">
+                        Delete Profile
+                        <span id="loaderSpinnerdeleteProfile" class="spinner-border spinner-border-sm d-none"
+                          role="status" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </form>
+                  <!-- End Change Password Form -->
+                </div>
+
+                <!-- Profile Delete -->
+                
+                <!-- subscription -->
+                <div class="tab-pane fade pt-3" id="subscription">
+
+                  <div class="alert alert-success d-none message_timeout" id="subscription_message" role="alert">
+                    Your payment has been successfully processed.
+                  </div>
+
+                  <!-- success message -->
+                  <div class="alert alert-success d-none message_timeout" id="subs_success_msg" role="alert">
+                  </div>
+                  <!-- success message -->
+
+                  <p id="payment_info"></p>
+
+                  <div class="container" id="subs_checkbox">
+                    <div class="row justify-content-center">
+                      <div class="col-auto">
+                        <div class="form-check">
+                          <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1"
+                            checked>
+                          <label class="form-check-label" for="radio1">Stripe</label>
+                        </div>
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="form-check">
+                          <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">
+                          <label class="form-check-label" for="radio2">PayPal</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div id="stripeContent" style="display: block;">
+                    <!-- @verbatim -->
+                    <!-- live on  day-->
+
+                    <!-- <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+                  <stripe-pricing-table pricing-table-id="prctbl_1PDT0RECi7NW6H841a3QjAaQ" publishable-key="pk_test_51ILlbLECi7NW6H84t0kHU83hA0lAEpFy0u8DsYPcaPS6uPGOp6wMYDku7xchd3Yj3iyUSm7Pb6ZmudfcYS7gmUWZ00wbnfZUMW">
+                  </stripe-pricing-table> -->
+
+
+                    <!-- live yearly-->
+
+                    <!-- <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+                    <stripe-pricing-table pricing-table-id="prctbl_1PDSH7ECi7NW6H84ug4xYLet"
+                      publishable-key="pk_test_51ILlbLECi7NW6H84t0kHU83hA0lAEpFy0u8DsYPcaPS6uPGOp6wMYDku7xchd3Yj3iyUSm7Pb6ZmudfcYS7gmUWZ00wbnfZUMW">
+                    </stripe-pricing-table> -->
+
+                    <!-- local -->
+
+                    <!-- <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+                  <stripe-pricing-table pricing-table-id="prctbl_1PBz3XECi7NW6H84oY7Dwvzk" publishable-key="pk_test_51ILlbLECi7NW6H84t0kHU83hA0lAEpFy0u8DsYPcaPS6uPGOp6wMYDku7xchd3Yj3iyUSm7Pb6ZmudfcYS7gmUWZ00wbnfZUMW">
+                  </stripe-pricing-table> -->
+
+
+
+
+                    <!-- LIVE LIVE LIVE -->
+                    <!-- <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+                    <stripe-pricing-table pricing-table-id="prctbl_1PHSqmECi7NW6H84e5PDUSUV"
+                      publishable-key="pk_test_51ILlbLECi7NW6H84t0kHU83hA0lAEpFy0u8DsYPcaPS6uPGOp6wMYDku7xchd3Yj3iyUSm7Pb6ZmudfcYS7gmUWZ00wbnfZUMW">
+                    </stripe-pricing-table> -->
+
+                    <!-- <script async src="https://js.stripe.com/v3/pricing-table.js"> -->
+                    <!-- </script> -->
+                    <!-- <stripe-pricing-table pricing-table-id='prctbl_1PHSqmECi7NW6H84e5PDUSUV'
+                      publishable-key="pk_test_51ILlbLECi7NW6H84t0kHU83hA0lAEpFy0u8DsYPcaPS6uPGOp6wMYDku7xchd3Yj3iyUSm7Pb6ZmudfcYS7gmUWZ00wbnfZUMW">
+                    </stripe-pricing-table> -->
+                    <!-- @endverbatim -->
+
+                    <!-- <script async src="https://js.stripe.com/v3/pricing-table.js">
+                    </script>
+                    <stripe-pricing-table pricing-table-id='prctbl_1PHSqmECi7NW6H84e5PDUSUV'
+                      publishable-key="pk_test_51ILlbLECi7NW6H84t0kHU83hA0lAEpFy0u8DsYPcaPS6uPGOp6wMYDku7xchd3Yj3iyUSm7Pb6ZmudfcYS7gmUWZ00wbnfZUMW">
+                    </stripe-pricing-table> -->
+
+
+
+                    <!-- Live Front Web -->
+                    <!-- <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+                    <stripe-pricing-table pricing-table-id="prctbl_1PJ9w6ECi7NW6H84NtgCS7B3"
+                      publishable-key="pk_test_51ILlbLECi7NW6H84t0kHU83hA0lAEpFy0u8DsYPcaPS6uPGOp6wMYDku7xchd3Yj3iyUSm7Pb6ZmudfcYS7gmUWZ00wbnfZUMW">
+                    </stripe-pricing-table> -->
+
+
+                    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+                    <stripe-pricing-table pricing-table-id="prctbl_1PJG2uECi7NW6H84syD8bSZ3"
+                      publishable-key="pk_test_51ILlbLECi7NW6H84t0kHU83hA0lAEpFy0u8DsYPcaPS6uPGOp6wMYDku7xchd3Yj3iyUSm7Pb6ZmudfcYS7gmUWZ00wbnfZUMW">
+                    </stripe-pricing-table>
+
+                  </div>
+
+                  <div class="row mt-3 mb-3 d-none" id="cancelButton">
+                    <div class="col text-center">
+                      <button id="subscriptionButton" onclick="showCancelModal()" type="button"
+                        class="btn btn-danger sub_btn">Cancel Subscription
+
+                        <span id="loaderSpinnercancelsubs" class="spinner-border spinner-border-sm d-none" role="status"
+                          aria-hidden="true"></span>
+
+                      </button>
+                    </div>
+                  </div>
+
+
+
+
+                  <!-- Cancel Confirmation Modal -->
+                  <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="cancelModalLabel">Confirm Cancellation</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure you want to cancel your subscription?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                          <button type="button" class="btn btn-danger" id="confirmCancelButton">Yes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <!-- <div id="paypalContent" style="display: none;">
+                    <div id="paypal-button-container-P-9DE559626B3097515MZUYK6Q"></div>
+                    <script
+                      src="https://www.paypal.com/sdk/js?client-id=AZJi9MEbKu3CPKeP62fsnJMccL8W4KWodokTEMktlswTcm_hav2JnhYk5vE17d48QOets6gSW4Z1UsKa&vault=true&intent=subscription"
+                      data-sdk-integration-source="button-factory"></script>
+                    <script>
+                      paypal.Buttons({
+                        style: {
+                          shape: 'rect',
+                          color: 'gold',
+                          layout: 'vertical',
+                          label: 'subscribe'
+                        },
+                        createSubscription: function (data, actions) {
+                          return actions.subscription.create({
+                            /* Creates the subscription */
+                            plan_id: 'P-9DE559626B3097515MZUYK6Q'
+                          }).then(function (subscriptionID) {
+                            console.log('Subscription created: ' + subscriptionID);
+                            return subscriptionID;
+                          });
+                        },
+                        onApprove: function (data, actions) {
+                          return actions.subscription.get(data.subscriptionID).then(function (details) {
+                            console.log('Subscription details:', details);
+                            paypalSuccess(details);
+                            // Here you can process the subscription details
+                            alert('Subscription approved! Subscriber: ' + details.subscriber.name.given_name);
+                          });
+                        }
+                      }).render('#paypal-button-container-P-9DE559626B3097515MZUYK6Q'); // Renders the PayPal button
+                    </script>
+                  </div> -->
+
+
+
+
+
+
+                  <div id="paypalContent" style="display: none;">
+                    <div id="paypal-button-container-P-50V25895EC576515HMZV7P5Y"></div>
+                    <script
+                      src="https://www.paypal.com/sdk/js?client-id=Abt2kZdwPfgSTG3n2M9mwISxYmgX1ofdJ81mIBi2IvBT5RlMyVeZAA3LboBJZHY-Fd4HbyxHcllOgTJs&vault=true&intent=subscription"
+                      data-sdk-integration-source="button-factory"></script>
+                    <script>
+                      paypal.Buttons({
+                        style: {
+                          shape: 'pill',
+                          color: 'gold',
+                          layout: 'vertical',
+                          label: 'subscribe'
+                        },
+                        createSubscription: function (data, actions) {
+                          console.log('Creating subscription...');
+                          return actions.subscription.create({
+                            /* Creates the subscription */
+                            plan_id: 'P-50V25895EC576515HMZV7P5Y'
+                          }).then(function (subscriptionID) {
+                            console.log('Subscription created: ' + subscriptionID);
+                            return subscriptionID;
+                          });
+                        },
+                        onApprove: function (data, actions) {
+                          console.log('Subscription approved: ' + data.subscriptionID);
+                          return actions.subscription.get(data.subscriptionID).then(function (details) {
+                            console.log('Subscription details:', details);
+                            paypalSuccess(details);
+                            // Here you can process the subscription details
+                            getUserPayments();
+                            $('#subscription_message').removeClass('d-none');
+                            messageTimeout();
+                           
+                            // window.location.href = projectUrl + 'user/user_profile.html';
+
+
+                            // alert('Subscription approved! Subscriber: ' + details.subscriber.name.given_name);
+                          });
+                        }
+                      }).render('#paypal-button-container-P-50V25895EC576515HMZV7P5Y'); // Renders the PayPal button
+                    </script>
+                  </div>
+
+                </div>
+              </div>
+              <!-- End Bordered Tabs -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="main_footer h_15vh">      
+    </div>
+
+  </main>
+
+  <!-- extra JS Files -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="../assets/extra/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/extra/quill/quill.min.js"></script>
+  <script src="../assets/extra/tinymce/tinymce.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+  <script src="../assets/js/board.js"></script>
+  <script src="../assets/js/coloris.min.js"></script>
+
+  <script type="text/javascript">
+    Coloris({
+      el: '.coloris',
+      swatches: [
+        '#264653',
+        '#2a9d8f',
+        '#e9c46a',
+        '#f4a261',
+        '#e76f51',
+        '#d62828',
+        '#023e8a',
+        '#0077b6',
+        '#0096c7',
+        '#00b4d8',
+        '#48cae4'
+      ]
+    });
+
+    Coloris.setInstance('.instance1', {
+      theme: 'pill',
+      themeMode: 'dark',
+      formatToggle: true,
+      closeButton: true,
+      clearButton: true,
+      swatches: [
+        '#067bc2',
+        '#84bcda',
+        '#80e377',
+        '#ecc30b',
+        '#f37748',
+        '#d56062'
+      ]
+    });
+
+    Coloris.setInstance('.instance2', {
+      theme: 'polaroid'
+    });
+
+    Coloris.setInstance('.instance3', {
+      theme: 'polaroid',
+      swatchesOnly: true
+    });
+  </script>
+
+  <script>
+    function showCancelModal() {
+      var cancelModal = new bootstrap.Modal(document.getElementById('cancelModal'), {
+        keyboard: false
+      });
+      cancelModal.show();
+    }
+
+    // Event listener for the confirmation button in the modal
+    document.getElementById('confirmCancelButton').addEventListener('click', function () {
+      // Hide the modal after confirmation
+      var cancelModal = bootstrap.Modal.getInstance(document.getElementById('cancelModal'));
+      cancelModal.hide();
+
+      // Proceed with the cancellation
+      cancelSubscription();
+    });
+  </script>
+
+  <script>
+    var currentURL = window.location.href;
+
+    // Check if the URL contains the session_id parameter
+    if (currentURL.includes('session_id')) {
+      var subscriptionTab = document.getElementById('subscription_button');
+      var subscriptionBox = document.getElementById('subscription');
+      var defaultBox = document.getElementById('profile-overview');
+      var defaultButton = document.getElementById('profile-overview-button');
+      var subscription_message = document.getElementById('subscription_message');
+
+
+
+      if (subscriptionTab) {
+        defaultButton.classList.remove('show');
+        defaultButton.classList.remove('active');
+
+        subscriptionTab.classList.add('active');
+        subscriptionTab.setAttribute('aria-selected', 'true');
+      }
+
+      if (subscriptionBox) {
+        defaultBox.classList.remove('show');
+        defaultBox.classList.remove('active');
+
+        subscriptionBox.classList.add('active');
+        subscriptionBox.classList.add('show');
+      }
+      subscription_message.classList.remove('d-none')
+      setTimeout(function () {
+        $('.message_timeout').addClass('d-none');
+      }, 5000);
+      var newURL = currentURL.split('?')[0];
+      window.history.pushState({}, document.title, newURL);
+    }
+
+    document.getElementById('profile-image-upload').addEventListener('change', function (event) {
+      readURL(this);
+    });
+
+    document.getElementById('phone').addEventListener('keypress', function (event) {
+      document.getElementById('phoneError').classList.remove('d-block');
+    });
+
+    document.getElementById('currentPassword').addEventListener('keypress', function (event) {
+      document.getElementById('currentPasswordError').classList.remove('d-block');
+    });
+
+    document.getElementById('newPassword').addEventListener('keypress', function (event) {
+      document.getElementById('passwordError').classList.remove('d-block');
+    });
+
+    document.getElementById('renewPassword').addEventListener('keypress', function (event) {
+      document.getElementById('confirm_passwordError').classList.remove('d-block');
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var radio1 = document.getElementById('radio1');
+      var radio2 = document.getElementById('radio2');
+      var stripeContent = document.getElementById('stripeContent');
+      var paypalContent = document.getElementById('paypalContent');
+
+      radio1.addEventListener('change', function () {
+        if (radio1.checked) {
+          stripeContent.style.display = 'block';
+          paypalContent.style.display = 'none';
+        }
+      });
+
+      radio2.addEventListener('change', function () {
+        if (radio2.checked) {
+          stripeContent.style.display = 'none';
+          paypalContent.style.display = 'block';
+        }
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var user = getUser();
+      var url = baseURL();
+      if (user != null) {
+        $('.user_name').text(user.name);
+        $('.avatar').attr('src', user.avatar);
+        $('.bio').text(user.bio);
+        $('.company').text(user.company);
+        $('.job').text(user.job);
+        $('.country').text(user.country);
+        $('.address').text(user.address);
+        $('.contact').text(user.contact);
+        $('.email').text(user.email);
+
+        $('.user_name').val(user.name);
+        $('.bio').val(user.bio);
+        $('.company').val(user.company);
+        $('.job').val(user.job);
+        $('.country').val(user.country);
+        $('.address').val(user.address);
+        $('.contact').val(user.contact);
+        $('.email').val(user.email);
+      }
+    });
+
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+      var completeURL = window.location.href;
+      var basicURL = window.location.origin;
+      var createProjectURL = basicURL + '/create_project';
+
+      // Check if the current URL matches the createProjectURL
+      if (completeURL === createProjectURL) {
+        var optionsDiv = document.getElementById('options_');
+        var hide_search_ = document.getElementById('search_bar_');
+
+        optionsDiv.classList.remove('d-none');
+        hide_search_.style.display = "none";
+
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>

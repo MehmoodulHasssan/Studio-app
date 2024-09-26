@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verify</title>
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- extra CSS Files -->
+    <link href="assets/extra/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/extra/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/extra/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/extra/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/extra/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/extra/remixicon/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <!-- <link href="assets/extra/simple-datatables/style.css" rel="stylesheet"> -->
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/coloris.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- stripe -->
+    <script src="https://js.stripe.com/v3/" async></script>
+
+    <style>
+        .otp-field {
+            flex-direction: row;
+            column-gap: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .otp-field input {
+            height: 45px;
+            width: 42px;
+            border-radius: 6px;
+            outline: none;
+            font-size: 1.125rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .otp-field input:focus {
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .otp-field input::-webkit-inner-spin-button,
+        .otp-field input::-webkit-outer-spin-button {
+            display: none;
+        }
+
+        .resend {
+            font-size: 12px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: black;
+            font-size: 12px;
+            text-align: right;
+            font-family: monospace;
+        }
+
+        .footer a {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container-fluid bg-body-tertiary d-block">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4" style="min-width: 500px;">
+                <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+                    <div class="card-body p-5 text-center">
+
+
+                        <!-- success message -->
+                        <div class="alert alert-success d-none message_timeout" id="reset_success_msg" role="alert">
+                        </div>
+                        <!-- success message -->
+
+                          <!-- success message -->
+                          <div class="alert alert-danger d-none message_timeout" id="reset_error_msg" role="alert">
+                        </div>
+                        <!-- success message -->
+
+
+                        <form id="resetForm" onsubmit="event.preventDefault(); verify_forgot_password();">
+                            <input type="hidden" id="hiddenEmail" name="email" value="">
+                            <input type="hidden" id="type" name="type" value="forgot_password">
+
+                            <h4>Verify</h4>
+                            <p>Your code was sent to you via email</p>
+
+                            <div class="otp-field mb-4">
+                                <input type="number" />
+                                <input type="number" disabled />
+                                <input type="number" disabled />
+                                <input type="number" disabled />
+                            </div>
+
+                            <button class="btn btn-primary mb-3" type="submit">
+                                Verify
+                            </button>
+
+                            <p class="resend text-muted mb-0">
+                                Didn't receive code? <a href="javascript:void(0);" onclick="resendOtp()">Request
+                                    again</a>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- extra JS Files -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="assets/extra/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/extra/quill/quill.min.js"></script>
+    <script src="assets/extra/tinymce/tinymce.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/board.js"></script>
+    <script src="assets/js/coloris.min.js"></script>
+
+
+    <script>
+
+        function getQueryParams() {
+            var params = {};
+            var queryString = window.location.search.substring(1);
+            var regex = /([^&=]+)=([^&]*)/g;
+            var match;
+            while (match = regex.exec(queryString)) {
+                params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
+            }
+            return params;
+        }
+
+        // Get query parameters
+        var queryParams = getQueryParams();
+
+        // Check if email parameter exists
+        if (queryParams.email) {
+            // Set the email in the hidden field
+            document.getElementById('hiddenEmail').value = queryParams.email;
+        }
+
+
+
+        const inputs = document.querySelectorAll(".otp-field > input");
+        const button = document.querySelector(".btn");
+
+        window.addEventListener("load", () => inputs[0].focus());
+        button.setAttribute("disabled", "disabled");
+
+        inputs[0].addEventListener("paste", function (event) {
+            event.preventDefault();
+
+            const pastedValue = (event.clipboardData || window.clipboardData).getData(
+                "text"
+            );
+            const otpLength = inputs.length;
+
+            for (let i = 0; i < otpLength; i++) {
+                if (i < pastedValue.length) {
+                    inputs[i].value = pastedValue[i];
+                    inputs[i].removeAttribute("disabled");
+                    inputs[i].focus;
+                } else {
+                    inputs[i].value = ""; // Clear any remaining inputs
+                    inputs[i].focus;
+                }
+            }
+        });
+
+        inputs.forEach((input, index1) => {
+            input.addEventListener("keyup", (e) => {
+                const currentInput = input;
+                const nextInput = input.nextElementSibling;
+                const prevInput = input.previousElementSibling;
+
+                if (currentInput.value.length > 1) {
+                    currentInput.value = "";
+                    return;
+                }
+
+                if (
+                    nextInput &&
+                    nextInput.hasAttribute("disabled") &&
+                    currentInput.value !== ""
+                ) {
+                    nextInput.removeAttribute("disabled");
+                    nextInput.focus();
+                }
+
+                if (e.key === "Backspace") {
+                    inputs.forEach((input, index2) => {
+                        if (index1 <= index2 && prevInput) {
+                            input.setAttribute("disabled", true);
+                            input.value = "";
+                            prevInput.focus();
+                        }
+                    });
+                }
+
+                button.classList.remove("active");
+                button.setAttribute("disabled", "disabled");
+
+                const inputsNo = inputs.length;
+                if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
+                    button.classList.add("active");
+                    button.removeAttribute("disabled");
+
+                    return;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>User Profile</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- extra CSS Files -->
+  <link href="../assets/extra/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/extra/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/extra/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/extra/quill/quill.snow.css" rel="stylesheet">
+  <link href="../assets/extra/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../assets/extra/remixicon/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <!-- <link href="../assets/extra/simple-datatables/style.css" rel="stylesheet"> -->
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/adminlte.min.css">
+
+  <!-- Template Main CSS File -->
+  <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/coloris.min.css" rel="stylesheet" type="text/css">
+
+
+  <!-- stripe -->
+  <!-- <script src="https://js.stripe.com/v3/pricing-table.js" async></script> -->
+
+
+  <style>
+    .colortext {
+      height: 30px;
+    }
+
+    .square .clr-field button,
+    .circle .clr-field button {
+      width: 22px;
+      height: 22px;
+      left: 5px;
+      right: auto;
+      border-radius: 5px;
+    }
+
+    .square .clr-field input,
+    .circle .clr-field input {
+      padding-left: 36px;
+    }
+
+    .clr-field {
+      width: 100%;
+    }
+
+    .square {
+      margin-top: 5px;
+    }
+
+
+    .circle .clr-field button {
+      border-radius: 50%;
+    }
+
+    .full .clr-field button {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- header -->
+  <header id="header" class="kkls header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+      <a href="" class="ml_25 d-flex align-items-center">
+        <img src="../assets/images/samples/logo_horizontal.png" alt="Stageplan Logo" class="img_size_40">
+      </a>
+
+      <div class="option-bar d-none" id="options_">
+        <i id="btnSaveBoard" class="bi bi-save option-bar-icons" title="Save Stage"></i>
+        <i id="btndownload" class="bi bi-cloud-download option-bar-icons" title="Download PNG"></i>
+        <i id="btnfullscreen" class="bi bi-arrows-fullscreen" title="FullScreen"></i>
+      </div>
+    </div>
+    <!-- End Logo -->
+
+    <!-- <div id="search_bar_" class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" id="query" name="query" placeholder="Search your projects..." title="Enter search keyword" />
+        <button type="submit" title="Search">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div> -->
+
+    <!-- <div class="option-bar d-none" id="options_">
+    <i id="btnSaveBoard" class="bi bi-save"></i>
+    <i id="btndownload" class="bi bi-cloud-download"></i>
+    </div> -->
+
+
+
+    <!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="" class="rounded-circle avatar imagePreviewUpdate" />
+            <span class="d-none d-md-block dropdown-toggle ps-2 user_name name_update"></span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6 class="user_name name_update"></h6>
+              <span class="job job_update"></span>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <!-- <li>
+              <a class="dropdown-item d-flex align-items-center" href="user_profile.html">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li> -->
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+          </ul>
+          <!-- End Profile Dropdown Items -->
+        </li>
+        <!-- End Profile Nav -->
+      </ul>
+    </nav>
+    <!-- End Icons Navigation -->
+  </header>
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="users.html">
+          <i class="bi bi-person"></i>
+          <span>Users</span>
+        </a>
+      </li>
+      <!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link" href="transactions.html">
+          <i class="bi bi-credit-card"></i>
+          <span>Transactions</span>
+        </a>
+      </li>
+      <!-- End Contact Page Nav -->
+    </ul>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <!-- <h1>Profile</h1> -->
+      <nav>
+        <ol class="breadcrumb">
+          <!-- <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li> -->
+        </ol>
+      </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Transactions</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="transactions_datatable" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>User Name</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Amount</th>
+                      <th>Invoice</th>
+                      <th>Gateway</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+  </main>
+
+  <!-- extra JS Files -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="../assets/extra/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/extra/quill/quill.min.js"></script>
+  <script src="../assets/extra/tinymce/tinymce.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/dashboard.js"></script>
+  <script src="../assets/js/board.js"></script>
+  <script src="../assets/js/coloris.min.js"></script>
+
+  <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="../assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="../assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="../assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="../assets/plugins/jszip/jszip.min.js"></script>
+  <script src="../assets/plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="../assets/plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="../assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="../assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="../assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+  <script type="text/javascript">
+    Coloris({
+      el: '.coloris',
+      swatches: [
+        '#264653',
+        '#2a9d8f',
+        '#e9c46a',
+        '#f4a261',
+        '#e76f51',
+        '#d62828',
+        '#023e8a',
+        '#0077b6',
+        '#0096c7',
+        '#00b4d8',
+        '#48cae4'
+      ]
+    });
+
+    Coloris.setInstance('.instance1', {
+      theme: 'pill',
+      themeMode: 'dark',
+      formatToggle: true,
+      closeButton: true,
+      clearButton: true,
+      swatches: [
+        '#067bc2',
+        '#84bcda',
+        '#80e377',
+        '#ecc30b',
+        '#f37748',
+        '#d56062'
+      ]
+    });
+
+    Coloris.setInstance('.instance2', {
+      theme: 'polaroid'
+    });
+
+    Coloris.setInstance('.instance3', {
+      theme: 'polaroid',
+      swatchesOnly: true
+    });
+  </script>
+
+  <script>
+    function showCancelModal() {
+      var cancelModal = new bootstrap.Modal(document.getElementById('cancelModal'), {
+        keyboard: false
+      });
+      cancelModal.show();
+    }
+
+    // Event listener for the confirmation button in the modal
+    document.getElementById('confirmCancelButton').addEventListener('click', function () {
+      // Hide the modal after confirmation
+      var cancelModal = bootstrap.Modal.getInstance(document.getElementById('cancelModal'));
+      cancelModal.hide();
+
+      // Proceed with the cancellation
+      cancelSubscription();
+    });
+  </script>
+
+  <script>
+    var currentURL = window.location.href;
+
+    // Check if the URL contains the session_id parameter
+    if (currentURL.includes('session_id')) {
+      var subscriptionTab = document.getElementById('subscription_button');
+      var subscriptionBox = document.getElementById('subscription');
+      var defaultBox = document.getElementById('profile-overview');
+      var defaultButton = document.getElementById('profile-overview-button');
+      var subscription_message = document.getElementById('subscription_message');
+
+
+
+      if (subscriptionTab) {
+        defaultButton.classList.remove('show');
+        defaultButton.classList.remove('active');
+
+        subscriptionTab.classList.add('active');
+        subscriptionTab.setAttribute('aria-selected', 'true');
+      }
+
+      if (subscriptionBox) {
+        defaultBox.classList.remove('show');
+        defaultBox.classList.remove('active');
+
+        subscriptionBox.classList.add('active');
+        subscriptionBox.classList.add('show');
+      }
+      subscription_message.classList.remove('d-none')
+      setTimeout(function () {
+        $('.message_timeout').addClass('d-none');
+      }, 5000);
+      var newURL = currentURL.split('?')[0];
+      window.history.pushState({}, document.title, newURL);
+    }
+
+    document.getElementById('profile-image-upload').addEventListener('change', function (event) {
+      readURL(this);
+    });
+
+    document.getElementById('phone').addEventListener('keypress', function (event) {
+      document.getElementById('phoneError').classList.remove('d-block');
+    });
+
+    document.getElementById('currentPassword').addEventListener('keypress', function (event) {
+      document.getElementById('currentPasswordError').classList.remove('d-block');
+    });
+
+    document.getElementById('newPassword').addEventListener('keypress', function (event) {
+      document.getElementById('passwordError').classList.remove('d-block');
+    });
+
+    document.getElementById('renewPassword').addEventListener('keypress', function (event) {
+      document.getElementById('confirm_passwordError').classList.remove('d-block');
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var radio1 = document.getElementById('radio1');
+      var radio2 = document.getElementById('radio2');
+      var stripeContent = document.getElementById('stripeContent');
+      var paypalContent = document.getElementById('paypalContent');
+
+      radio1.addEventListener('change', function () {
+        if (radio1.checked) {
+          stripeContent.style.display = 'block';
+          paypalContent.style.display = 'none';
+        }
+      });
+
+      radio2.addEventListener('change', function () {
+        if (radio2.checked) {
+          stripeContent.style.display = 'none';
+          paypalContent.style.display = 'block';
+        }
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var user = getUser();
+      var url = baseURL();
+      if (user != null) {
+        $('.user_name').text(user.name);
+        $('.avatar').attr('src', user.avatar);
+        $('.bio').text(user.bio);
+        $('.company').text(user.company);
+        $('.job').text(user.job);
+        $('.country').text(user.country);
+        $('.address').text(user.address);
+        $('.contact').text(user.contact);
+        $('.email').text(user.email);
+
+        $('.user_name').val(user.name);
+        $('.bio').val(user.bio);
+        $('.company').val(user.company);
+        $('.job').val(user.job);
+        $('.country').val(user.country);
+        $('.address').val(user.address);
+        $('.contact').val(user.contact);
+        $('.email').val(user.email);
+      }
+    });
+
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+      var completeURL = window.location.href;
+      var basicURL = window.location.origin;
+      var createProjectURL = basicURL + '/create_project';
+
+      // Check if the current URL matches the createProjectURL
+      if (completeURL === createProjectURL) {
+        var optionsDiv = document.getElementById('options_');
+        var hide_search_ = document.getElementById('search_bar_');
+
+        optionsDiv.classList.remove('d-none');
+        hide_search_.style.display = "none";
+
+      }
+    });
+  </script>
+
+  <script>
+    $(function () {
+      $('#transactions_datatable').DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+          "url": ApiURL + "get_transactions", // Corrected endpoint URL
+          "type": "POST", // Typically, server-side processing uses POST method
+          "dataType": "json",
+          "data": function (d) {
+            d.perPage = d.length; // Send perPage param to Laravel
+          }
+        },
+        "columns": [
+          { "data": "id", "render": function (data) { return data ? data : 'N/A'; } },
+          { "data": "user.name", "render": function (data) { return data ? data : 'N/A'; } },
+          {
+            "data": "start_date",
+            "render": function (data) {
+              if (data) {
+                var date = new Date(data);
+                var options = { day: 'numeric', month: 'short', year: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+              } else {
+                return 'N/A';
+              }
+            }
+          },
+          {
+            "data": "end_date",
+            "render": function (data) {
+              if (data) {
+                var date = new Date(data);
+                var options = { day: 'numeric', month: 'short', year: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+              } else {
+                return 'N/A';
+              }
+            }
+          },
+          { "data": "amount", "render": function (data) { return data ? '$' + data : 'N/A'; } },
+          {
+            "data": "invoice_url",
+            "render": function (data) {
+              return data ? '<a href="' + data + '" class="btn-sm " target="_blank">Download Invoice</a>' : 'N/A';
+            }
+          },
+          { "data": "gateway", "render": function (data) { return data ? data : 'N/A'; } }
+        ],
+        "paging": true,
+        "searching": true,
+        "ordering": false,
+        "info": true
+      });
+    });
+  </script>
+
+</body>
+
+</html>
